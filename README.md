@@ -6,6 +6,7 @@ This is a sample solution for an issue I am having with the [Multiselect Compone
 
 * Retrieves data from a remote source (API via React Query)
 * Selections are stored in state by a component higher in the object structure
+* Uses the `useForm` hook from [react-hook-form](https://react-hook-form.com/)
 
 ## Use Case
 
