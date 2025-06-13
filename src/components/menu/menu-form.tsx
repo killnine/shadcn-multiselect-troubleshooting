@@ -8,7 +8,7 @@ import {useForm} from "react-hook-form";
 import {type Option} from "@/components/ui/multiple-selector.tsx";
 import {useState} from "react";
 import {useQuery} from "@tanstack/react-query";
-import {fetchItems, fetchItemsByIds} from '@/api/item-service';
+import {fetchItemsByIds} from '@/api/item-service';
 import {WidgetProperties} from "@/components/menu/widget-properties.tsx";
 import {WidgetIngredients} from "@/components/menu/widget-ingredients.tsx";
 
@@ -65,7 +65,7 @@ export function MenuForm() {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                     <WidgetProperties form={form} selectedItems={selectedItems} onSelectedItemsChange={onSelectedItemsChangeHandler}/>
-                    <WidgetIngredients form={form} selectedItemIds={selectedItems.map((i) => i.id)}/>
+                    <WidgetIngredients selectedItemIds={selectedItems.map((i) => i.id)}/>
                     <Button type="submit">Create Menu</Button>
                 </form>
             </Form>
