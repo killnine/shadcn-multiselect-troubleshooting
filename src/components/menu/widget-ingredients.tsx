@@ -1,24 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import {useQuery} from "@tanstack/react-query";
-import { fetchItemsByIds} from "@/api/item-service.ts";
+import type {SelectedItem} from "@/types/item.ts";
 
 interface WidgetIngredientProps {
-    selectedItemIds: number[]
+    selectedItems: SelectedItem[]
 }
 
-export function WidgetIngredients({ selectedItemIds }: WidgetIngredientProps) {
-    // TODO: fetch ingredients for the selected Items
-
-    const {
-        data: items = [],
-    } = useQuery({
-        queryKey: ['selectedItems', selectedItemIds],
-        queryFn: ({ queryKey }) => {
-            const fetched = fetchItemsByIds(queryKey[1] as number[])
-            return fetched
-        },
-    })
-
+export function WidgetIngredients({ selectedItems }: WidgetIngredientProps) {
     return (
         <Card>
             <CardHeader>
@@ -32,10 +19,10 @@ export function WidgetIngredients({ selectedItemIds }: WidgetIngredientProps) {
                 </CardTitle>
             </CardHeader>
             <CardContent className="grid grid-cols-12 gap-4">
-                {items.length > 0 ? (
+                {selectedItems.length > 0 ? (
                     <div className="col-span-12">
                         <ul className="divide-y divide-muted border border-muted rounded-lg overflow-hidden shadow-sm bg-background">
-                            {items.map(item => (
+                            {selectedItems.map(item => (
                                 <li
                                     key={item.id}
                                     className="flex flex-col sm:flex-row sm:items-center justify-between px-4 py-3 hover:bg-accent transition-colors"
@@ -43,6 +30,7 @@ export function WidgetIngredients({ selectedItemIds }: WidgetIngredientProps) {
                                     <div>
                                         <span className="font-medium text-primary">{item.name}</span>
                                         <span className="block text-muted-foreground text-xs sm:text-sm">{item.description}</span>
+                                        <span className="font-bold text-primary">{item.quantity}</span>
                                     </div>
                                 </li>
                             ))}

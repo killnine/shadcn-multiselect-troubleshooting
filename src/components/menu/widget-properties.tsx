@@ -1,22 +1,23 @@
 import type { UseFormReturn } from "react-hook-form";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import type { formSchema } from "./menu-form";
 import type z from "zod";
 import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form.tsx";
 import { Input } from "../ui/input";
 import MultipleSelector, {type Option} from "@/components/ui/multiple-selector.tsx";
-import type { Item } from "@/types/item";
+import type { SelectedItem } from "@/types/item";
 import {useQuery} from "@tanstack/react-query";
 import {fetchItems} from "@/api/item-service.ts";
 import {useState} from "react";
+import {formSchema} from "@/components/menu/form-schema.tsx";
 
 interface WidgetPropertiesProps {
     form: UseFormReturn<z.infer<typeof formSchema>>
-    selectedItems: Item[]
+    selectedItems: SelectedItem[]
     onSelectedItemsChange: (selectedItemOptions: Option[]) => void
+    onQuantityChange: (itemId: number, quantity: number) => void
 }
 
-export function WidgetProperties({ form, selectedItems, onSelectedItemsChange }: WidgetPropertiesProps) {
+export function WidgetProperties({ form, selectedItems, onSelectedItemsChange, onQuantityChange }: WidgetPropertiesProps) {
     const [searchTerm, setSearchTerm] = useState("");
 
     const {
@@ -104,14 +105,29 @@ export function WidgetProperties({ form, selectedItems, onSelectedItemsChange }:
                                     key={item.id}
                                     className="flex items-center justify-between p-2 bg-muted/25 rounded-md"
                                 >
-                                    <div className="flex-1 min-w-0">
-                                        <div className="flex items-center gap-2">
-                                            <span className="font-medium text-sm">{item.name} - </span>
-                                            <span className="font-light text-sm truncate">{item.name}</span>
+                                    <div className="flex-1 min-w-0 flex items-center justify-between">
+                                        <div>
+                                            <div className="flex items-center gap-2">
+                                                <span className="font-medium text-sm">{item.name}</span>
+                                            </div>
+                                            <p className="text-xs text-muted-foreground truncate">
+                                                {item.description}
+                                            </p>
                                         </div>
-                                        <p className="text-xs text-muted-foreground truncate">
-                                            {item.description}
-                                        </p>
+                                        {/* Add quantity control */}
+                                        <div className="flex items-center gap-2 ml-4">
+                                            <Input
+                                                type="number"
+                                                value={item.quantity}
+                                                onChange={(e) => {
+                                                    const value = parseInt(e.target.value) || 1;
+                                                    const quantity = Math.max(1, value); // Ensure quantity is at least 1
+                                                    onQuantityChange(item.id, quantity);
+                                                }}
+                                                className="w-20 h-8 text-center"
+                                                min="1"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             ))}

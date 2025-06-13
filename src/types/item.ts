@@ -8,4 +8,9 @@ export const itemSchema = z.object({
     category: z.string().optional(),
 })
 
+export const selectedItemSchema = itemSchema.extend({
+    quantity: z.number().min(1).default(1),
+})
+
 export type Item = z.infer<typeof itemSchema>
+export type SelectedItem = z.infer<typeof selectedItemSchema>
