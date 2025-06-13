@@ -29,8 +29,6 @@ export function MenuForm() {
 
     const [selectedItemIds, setSelectedItemIds] = useState<number[]>([]);
 
-
-
     const {
         data: selectedItems = [],
     } = useQuery({
@@ -40,8 +38,6 @@ export function MenuForm() {
         },
         enabled: selectedItemIds.length > 0,
     })
-
-
 
     function onSubmit(values: z.infer<typeof formSchema>){
         console.log(values)
