@@ -10,24 +10,15 @@ import {
   FormMessage,
 } from '@/components/ui/form.tsx'
 import { Input } from '../ui/input'
-import { type Option } from '@/components/ui/multiple-selector.tsx'
-import type { SelectedItem } from '@/types/item'
 import { formSchema } from '@/components/menu/form-schema.tsx'
-import { ItemSelection } from '@/components/items/items-selection.tsx'
+import type { ReactNode } from 'react'
 
 interface WidgetPropertiesProps {
   form: UseFormReturn<z.infer<typeof formSchema>>
-  selectedItems: SelectedItem[]
-  onSelectedItemsChange: (selectedItemOptions: Option[]) => void
-  onQuantityChange: (itemId: number, quantity: number) => void
+  children: ReactNode
 }
 
-export function WidgetProperties({
-  form,
-  selectedItems,
-  onSelectedItemsChange,
-  onQuantityChange,
-}: WidgetPropertiesProps) {
+export function WidgetProperties({ form, children }: WidgetPropertiesProps) {
   return (
     <Card>
       <CardHeader>
@@ -58,12 +49,7 @@ export function WidgetProperties({
             </FormItem>
           )}
         />
-        <ItemSelection
-          form={form}
-          selectedItems={selectedItems}
-          onSelectedItemsChange={onSelectedItemsChange}
-          onQuantityChange={onQuantityChange}
-        />
+        {children}
       </CardContent>
     </Card>
   )

@@ -11,6 +11,9 @@ import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { fetchItems } from '@/api/item-service.ts'
 import { Input } from '@/components/ui/input.tsx'
+import type { UseFormReturn } from 'react-hook-form'
+import type { formSchema } from '@/components/menu/form-schema.tsx'
+import { z } from 'zod'
 
 interface ItemSelectionProps {
   form: UseFormReturn<z.infer<typeof formSchema>>
